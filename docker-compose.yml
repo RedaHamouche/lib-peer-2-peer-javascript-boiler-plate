@@ -1,0 +1,72 @@
+version: "3.8"
+
+services:
+  node1:
+    build: .
+    container_name: libp2p-node1
+    hostname: libp2p-node1
+    volumes:
+      - node1-db:/app/data
+      - shared-config:/app/shared
+    environment:
+      - NODE_NAME=node1
+      - DB_PATH=/app/data/node1.db
+      - DOCKER=true
+    ports:
+      - "9001:9001"
+    networks:
+      - libp2p-network
+    stdin_open: true
+    tty: true
+
+  node2:
+    build: .
+    container_name: libp2p-node2
+    hostname: libp2p-node2
+    volumes:
+      - node2-db:/app/data
+      - shared-config:/app/shared
+    environment:
+      - NODE_NAME=node2
+      - DB_PATH=/app/data/node2.db
+      - DOCKER=true
+      - BOOTSTRAP_NODE=libp2p-node1
+    ports:
+      - "9002:9002"
+    networks:
+      - libp2p-network
+    stdin_open: true
+    tty: true
+    depends_on:
+      - node1
+
+  node3:
+    build: .
+    container_name: libp2p-node3
+    hostname: libp2p-node3
+    volumes:
+      - node3-db:/app/data
+      - shared-config:/app/shared
+    environment:
+      - NODE_NAME=node3
+      - DB_PATH=/app/data/node3.db
+      - DOCKER=true
+      - BOOTSTRAP_NODE=libp2p-node1
+    ports:
+      - "9003:9003"
+    networks:
+      - libp2p-network
+    stdin_open: true
+    tty: true
+    depends_on:
+      - node1
+
+volumes:
+  node1-db:
+  node2-db:
+  node3-db:
+  shared-config:
+
+networks:
+  libp2p-network:
+    driver: bridge

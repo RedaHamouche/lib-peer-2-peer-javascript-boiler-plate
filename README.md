@@ -161,6 +161,55 @@ transports: [
 
 Ce boilerplate peut être étendu avec une interface web en utilisant les mêmes modules libp2p avec des transports WebRTC.
 
+## 🧪 Tests de scalabilité
+
+Le projet inclut un script de test automatisé pour vérifier la scalabilité du réseau :
+
+```bash
+yarn test:scalability
+# ou
+npm run test:scalability
+```
+
+Ce test :
+
+- ✅ Crée 10 nœuds automatiquement
+- ✅ Les connecte en topologie mesh (chaque nœud se connecte à plusieurs autres)
+- ✅ Vérifie que tous les messages sont propagés à tous les nœuds
+- ✅ Teste la résilience (fonctionne même si un nœud se déconnecte)
+
+### Résultats des tests
+
+Le système a été testé avec succès avec **10 nœuds** :
+
+- ✅ **100% de succès** : Tous les nœuds reçoivent tous les messages
+- ✅ **Résilience** : Le réseau continue de fonctionner même après la fermeture d'un nœud
+- ✅ **Architecture décentralisée** : Aucun point de défaillance unique
+
+### Connecter plusieurs nœuds manuellement
+
+Pour créer un réseau avec plusieurs nœuds manuellement :
+
+1. **Nœud 1** (bootstrap) :
+
+```bash
+node src/index.js
+```
+
+2. **Nœud 2** (se connecte au nœud 1) :
+
+```bash
+node src/index.js /ip4/127.0.0.1/tcp/XXXXX/p2p/ADRESSE_NODE1
+```
+
+3. **Nœud 3** (se connecte au nœud 1 ET au nœud 2) :
+
+```bash
+node src/index.js /ip4/127.0.0.1/tcp/XXXXX/p2p/ADRESSE_NODE1 /ip4/127.0.0.1/tcp/YYYYY/p2p/ADRESSE_NODE2
+```
+
+**Astuce** : Pour un réseau vraiment décentralisé, chaque nœud devrait se connecter à au moins 2-3 autres nœuds pour éviter les points de défaillance unique.
+
 ## 🤝 Contribution
 
 1. Fork le projet

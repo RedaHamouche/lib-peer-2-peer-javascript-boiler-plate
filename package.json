@@ -38,6 +38,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
+    "test:scalability": "node test-scalability.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -46,10 +47,12 @@
     "@libp2p/gossipsub": "^15.0.8",
     "@libp2p/identify": "^4.0.6",
     "@libp2p/interface-peer-id": "^2.0.2",
+    "@libp2p/kad-dht": "^16.1.0",
     "@libp2p/ping": "^3.0.6",
     "@libp2p/pubsub": "^10.1.18",
     "@libp2p/tcp": "^11.0.6",
     "@multiformats/multiaddr": "^13.0.1",
+    "better-sqlite3": "^12.4.1",
     "libp2p": "^3.0.7",
     "multiaddr": "^10.0.1"
   }
